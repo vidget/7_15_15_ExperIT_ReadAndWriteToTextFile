@@ -54,24 +54,109 @@ namespace _7_15_15_ExperIT_ReadAndWriteToTextFile
             char done = 'Y';//for do-while loop condition
             do
             {
-                //takes the user inputed name and adds it to a new PERSON called newPersonTemp then adds that PERSON to the CLASSBODY LIST
-                Console.WriteLine("\nEnter a name to add to the FILE");
-                inputName = Console.ReadLine();
-                Person newPersonTemp = new Person();
-                newPersonTemp.firstName = inputName;
-                classbody.Add(newPersonTemp);
+                int choice = 0;
+                Console.WriteLine("\nChoose an action to perform");
+                Console.WriteLine(" 1.) Add Name");
+                Console.WriteLine(" 2.) Delete Name");
+                Console.WriteLine(" 3.) View Current Group");
+                Console.WriteLine(" 4.) Commit Group to File ");
+                Console.WriteLine(" 5.) Exit and Write File ");
+                Console.WriteLine(" 6.) Exit Only");
 
-                //Clears the Screen then displays the list of names stored in the CLASSBODY 
-                Console.Clear();
-                Console.WriteLine("These are the names you wish to WRITE to FILE:\n");
-                showStudents(classbody);
+                choice = int.Parse(Console.ReadLine());
 
-                //Prompts the user if they want to add another person if 'N' for no is entered the do-while loop is exited otherwise another name is added to the CLASSBODY
-                Console.WriteLine("\nDo you want to add another person (Y/N)?");
-                done = Console.ReadKey().KeyChar;
+                switch(choice)
+                {
+                    case 1:
+                        Console.WriteLine("\nEnter a name to add to the FILE");
+                        inputName = Console.ReadLine();
+                        Person newPersonTemp = new Person();
+                        newPersonTemp.firstName = inputName;
+                        classbody.Add(newPersonTemp);
+                        Console.Clear();
+                        Console.WriteLine("These are the names you wish to WRITE to FILE:\n");
+                        showStudents(classbody);
+
+                        //Prompts the user if they want to add another person if 'N' for no is entered the do-while loop is exited otherwise another name is added to the CLASSBODY
+                        Console.WriteLine("\nDo you want to perform another action (Y/N)?");
+                        done = Console.ReadKey().KeyChar;
+
+                    break;
+
+                    case 2:
+                    int userSelect = 0;
+                    Console.Clear();
+                    Console.WriteLine("Select a name to DELETE:\n");
+                    for (int i = 0; i < classbody.Count; i++)
+                    {
+                        Console.Write(i+".)"+classbody[i].firstName.ToString()); //displays the firstName
+                        Console.Write(" ");//adds a space between the first and last name when displaying
+                        Console.Write(classbody[i].lastName.ToString());//displays the lastName
+                        Console.Write("\n");//advances to the next line.
+
+                    }
+                    Console.Write("\nEnter the # to Delete >");
+                        userSelect=int.Parse(Console.ReadLine());
+                        classbody.RemoveAt(userSelect);//removes a name from the list CLASSBODY based on user input
+
+                         Console.Clear();
+                        Console.WriteLine("This is the NEW LIST of names");
+                        showStudents(classbody);//reprint the list
+                    break;
+
+                    case 3:
+                    Console.Clear();
+                    Console.WriteLine("These are the names in current group:\n");
+                    showStudents(classbody);
+                    break;
+
+                    case 4:
+                         Console.Clear();//Clears the screen
+                         writeFile(classbody);//Calls the writeFile Method
+
+                    //try-catch to over-write the file "temp.txt" 
+                  
+                    break;
+
+                    case 5:
+                    writeFile(classbody);//Calls the writeFile Method
+                    System.Environment.Exit(0);
+
+                    break;
+
+                    case 6:
+                    
+                    System.Environment.Exit(0);
+
+                    break;
+                    
+                    default:
+                    break;
+
+                }
+
             } while (done == 'Y');
 
-            Console.Clear();//Clears the screen
+           
+
+        }
+
+        //This METHOD displays the LIST of first and last names in the CLASSBODY
+        public static void showStudents(List<Person> classbody)
+        {
+            for (int i = 0; i < classbody.Count; i++)
+            {
+                Console.Write(classbody[i].firstName.ToString()); //displays the firstName
+                Console.Write(" ");//adds a space between the first and last name when displaying
+                Console.Write(classbody[i].lastName.ToString());//displays the lastName
+                Console.Write("\n");//advances to the next line.
+
+            }
+        }
+
+
+        public static void writeFile(List<Person> classbody)
+        {
 
             //try-catch to over-write the file "temp.txt" 
             try
@@ -100,19 +185,6 @@ namespace _7_15_15_ExperIT_ReadAndWriteToTextFile
                 Console.ReadLine();//pause
             }
 
-        }
-
-        //This METHOD displays the LIST of first and last names in the CLASSBODY
-        public static void showStudents(List<Person> classbody)
-        {
-            for (int i = 0; i < classbody.Count; i++)
-            {
-                Console.Write(classbody[i].firstName.ToString()); //displays the firstName
-                Console.Write(" ");//adds a space between the first and last name when displaying
-                Console.Write(classbody[i].lastName.ToString());//displays the lastName
-                Console.Write("\n");//advances to the next line.
-
-            }
         }
 
     }
